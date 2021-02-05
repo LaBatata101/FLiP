@@ -9,8 +9,8 @@ ex917 = \
    (Equal(a,x), given),
    (Apply(),sub,2,1)]
 
-print check_proof(ex917)
-print
+print(check_proof(ex917))
+print()
 
 # This way prints generated formula at prapply step
 
@@ -22,7 +22,7 @@ def ex917a():
 
 clear()
 ex917a()
-print
+print()
 
 def ex917a():
   pcheckp(Text('Like ex, 9.17 but substitution term is more complex'), comment)
@@ -32,7 +32,7 @@ def ex917a():
 
 clear()
 ex917a()
-print
+print()
 
 def ex917x():
   pcheckp(Text('like ex. 9.17, but eqn does not match premise, so no substitution'), comment)
@@ -42,7 +42,7 @@ def ex917x():
 
 clear()
 ex917x()
-print
+print()
 
 def ex914():
   checkp(Text('Valid E-elim, Kaye ex. 9.14, Ax.~P(x) |- ~Ex.P(x)'), comment)
@@ -56,7 +56,7 @@ def ex914():
 
 clear()
 ex914()
-print
+print()
 
 def ex914x1():
   checkp(Text('Erroneous ex. 9.14, fail at A-elim, omit term'), comment)
@@ -70,7 +70,7 @@ def ex914x1():
 
 clear()
 ex914x1()
-print
+print()
 
 
 def ex914x2():
@@ -85,7 +85,7 @@ def ex914x2():
 
 clear()
 ex914x2()
-print
+print()
 
 def ex91Ae():
   pcheckp(Text('A-elim from Kaye ex 9.10'), comment)
@@ -94,7 +94,7 @@ def ex91Ae():
 
 clear()
 ex91Ae()
-print
+print()
 
 def ex91AeX1():
   pcheckp(Text('A-elim like Kaye ex 9.10, but same term'), comment)
@@ -103,7 +103,7 @@ def ex91AeX1():
 
 clear()
 ex91AeX1()
-print
+print()
 
 def ex91AeX2():
   pcheckp(Text('A-elim like Kaye ex 9.10, but more complicated term'), comment)
@@ -112,7 +112,7 @@ def ex91AeX2():
 
 clear()
 ex91AeX2()
-print
+print()
 
 def ex91AeX3():
   pcheckp(Text('A-elim like Kaye ex 9.10, but missing term'), comment)
@@ -121,7 +121,7 @@ def ex91AeX3():
 
 clear()
 ex91AeX3()
-print
+print()
 
 def ex91AeX4():
   pcheckp(Text('A-elim like Kaye ex 9.10, but number instead of term'),comment)
@@ -130,7 +130,7 @@ def ex91AeX4():
 
 clear()
 ex91AeX4()
-print
+print()
 
 def ex91AeX4():
   pcheckp(Text('A-elim like Kaye ex 9.10, but string instead of term'),comment)
@@ -139,7 +139,7 @@ def ex91AeX4():
 
 clear()
 ex91AeX4()
-print
+print()
 
 
 def ex91AeX5():
@@ -149,7 +149,7 @@ def ex91AeX5():
 
 clear()
 ex91AeX5()
-print
+print()
 
 def p111Ae():
   pcheckp(Text('P(t), Ax.(P(x) -> ~Q(x)) |- ~Q(t) using Ae from H&R p. 111'),comment)
@@ -160,7 +160,7 @@ def p111Ae():
 
 clear()
 p111Ae()
-print
+print()
 
 
 def p111AeX1():
@@ -172,7 +172,7 @@ def p111AeX1():
 
 clear()
 p111AeX1()
-print
+print()
 
 
 def p111AeX2():
@@ -184,7 +184,7 @@ def p111AeX2():
 
 clear()
 p111AeX2()
-print
+print()
 
 # This example suggests we could let otherdata t1 default to v1
 
@@ -196,7 +196,7 @@ def p114AeEi():
 
 clear()
 p114AeEi()
-print
+print()
 
 
 def p114AeEiX1():
@@ -207,7 +207,7 @@ def p114AeEiX1():
 
 clear()
 p114AeEiX1()
-print
+print()
 
 def ex91Ei():
   pcheckp(Text('E-intro, Kaye ex 9.10, except here substitute all occurrences of bound variable'), comment)
@@ -216,7 +216,7 @@ def ex91Ei():
 
 clear()
 ex91Ei()
-print
+print()
 
 
 def ex91EiXa():
@@ -226,7 +226,7 @@ def ex91EiXa():
 
 clear()
 ex91EiXa()
-print
+print()
 
 def ex91EiX1():
   pcheckp(Text('Erroneous E-intro, like Kaye ex 9.10, term not dict given'), comment)
@@ -235,7 +235,7 @@ def ex91EiX1():
 
 clear()
 ex91EiX1()
-print
+print()
 
 def ex91EiX2():
   pcheckp(Text('Erroneous E-intro, like Kaye ex 9.10, term and variable reversed'), comment)
@@ -245,7 +245,7 @@ def ex91EiX2():
 
 clear()
 ex91EiX2()
-print
+print()
 
 def ex91EiX3():
   pcheckp(Text('Erroneous E-intro, like Kaye ex 9.10, number not variable given'), comment)
@@ -255,7 +255,7 @@ def ex91EiX3():
 
 clear()
 ex91EiX3()
-print
+print()
 
 def ex91EiX4():
   pcheckp(Text('Erroneous E-intro, like Kaye ex 9.10, string not variable given'), comment)
@@ -265,7 +265,7 @@ def ex91EiX4():
 
 clear()
 ex91EiX4()
-print
+print()
 
 def ex912():
   checkp(Text('Valid A-intro, Kaye ex. 9.12, ~Ax.P(x) |- Ex.~P(x)'), comment)
@@ -285,7 +285,7 @@ def ex912():
 
 clear()
 ex912()
-print
+print()
 
 
 def ex912X1():
@@ -306,7 +306,7 @@ def ex912X1():
 
 clear()
 ex912X1()
-print
+print()
 
 def ex912X2():
   checkp(Text('Erroneous Kaye ex. 9.12, replace contra rule with ael, takes 1 not 2 premises'), comment)
@@ -326,7 +326,7 @@ def ex912X2():
 
 clear()
 ex912X2()
-print
+print()
 
 def ex912X3():
   checkp(Text('Erroneous Kaye ex. 9.12, replace Ai rule with Ae, change to 1 not 2 premises'), comment)
@@ -346,7 +346,7 @@ def ex912X3():
 
 clear()
 ex912X3()
-print
+print()
 
 
 def ex912X0():
@@ -367,7 +367,7 @@ def ex912X0():
 
 clear()
 ex912X0()
-print
+print()
 
 def ex91EiX5():
   pcheckp(Text('Erroneous E-intro, like Kaye ex 9.10, missing {t1:v1}'), comment)
@@ -377,4 +377,4 @@ def ex91EiX5():
 
 clear()
 ex91EiX5()
-print
+print()

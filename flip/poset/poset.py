@@ -48,7 +48,7 @@ _rule_names = { assume: 'Assumption',
 m1 = FormulaPlaceholder('m1')
 
 # Kaye's 'poset elements' (p. 38) are like fol variables
-v1,v2,v3 = map(VariablePlaceholder, ['v1','v2','v3'])
+v1,v2,v3 = list(map(VariablePlaceholder, ['v1','v2','v3']))
 
 _rules = { assume: [[ m1 ]],  # subproof, assumer
            trans:  [ lt(v1,v2), lt(v2,v3), lt(v1,v3) ],
@@ -58,7 +58,7 @@ _rules = { assume: [[ m1 ]],  # subproof, assumer
          }
 
 # variables used in proofs.  Kaye calls these 'poset elements' (p. 38)
-a,b,c,d = map(Variable, 'abcd')    # a.name = 'a' etc.
+a,b,c,d = list(map(Variable, 'abcd'))    # a.name = 'a' etc.
 
 # Import statement to write to save file, so it in turn can be imported 
 _imports = 'from flip.poset import *'

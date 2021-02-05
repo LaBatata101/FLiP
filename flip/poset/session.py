@@ -20,7 +20,7 @@ nd.add_imports(poset._imports)
 
 # Import all the identifiers that might be used in the interactive session
 
-from flip.logic.common import * 
+from flip.logic.common import  
 from poset import *
 
 from flip.logic.nd import *      # prover commands

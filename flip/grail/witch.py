@@ -6,7 +6,7 @@ transcript at http://www.sacred-texts.com/neu/mphg/mphg.htm
 """
 
 from flip.logic.fol_session import *
-from villagers import *
+from .villagers import *
 
 # "There are ways of telling whether she's a witch."
  

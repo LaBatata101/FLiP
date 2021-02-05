@@ -19,7 +19,7 @@ def simple_back_test():
   pcheckp(New(y),new)        # should succeed
 
 simple_back_test()
-print
+print()
 
 # from kaye_ch9_test import ex916  # NOT! This prints all the proofs!
 
@@ -43,7 +43,7 @@ def indents_back_test():
 
 indents_back_test()
 
-a,b = map(Letter, 'ab')  # rebind
+a,b = list(map(Letter, 'ab'))  # rebind
 
 def xr_back_test():
   check_proof()
@@ -58,6 +58,6 @@ def xr_back_test():
   state()
 
 xr_back_test()
-print
+print()
 
   

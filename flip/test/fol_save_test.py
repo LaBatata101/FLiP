@@ -14,7 +14,7 @@ def ex914_import_save_restore():
  check_proof(ex914)
 
 ex914_import_save_restore() 
-print
+print()
 
 def ex912_apply_save_restore():
   clear()
