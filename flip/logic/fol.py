@@ -93,7 +93,7 @@ class E(Quantifier):
 # Placeholder patterns used in rules
 # use each key S1 etc. in subformulas dictionary for all instances of its class
 
-s1key, p1key, q1key = map(FormulaPlaceholder, ['S1','P1','Q1'])
+s1key, p1key, q1key = list(map(FormulaPlaceholder, ['S1','P1','Q1']))
 
 class S1(Subst):
   def __init__(self, arg):
@@ -135,8 +135,8 @@ _rule_names = { refl : 'Reflexivity',
 # Subproofs in inference rules are nested lists
 
 # Placeholders used in rules
-t1,t2,s1  = map(TermPlaceholder, ('t1','t2','s1'))
-v1,v2     = map(VariablePlaceholder, ('v1','v2'))
+t1,t2,s1  = list(map(TermPlaceholder, ('t1','t2','s1')))
+v1,v2     = list(map(VariablePlaceholder, ('v1','v2')))
 
 _rules = { refl:  [ Equal(t1,t1) ],
            sym:   [ Equal(t1,s1), Equal(s1,t1) ],
@@ -152,8 +152,8 @@ _rules = { refl:  [ Equal(t1,t1) ],
 
 # Variables, letters used in proofs
 # recall a,b,c,d,f, t are propositional Letters in prop_session, but that's ok 
-a,b,c,d,t,u,v,w,x,y,z = map(Variable, 'abcdtuvwxyz')  # u.name = 'u' etc
-e,p,q,r = map(Letter, 'epqr')
+a,b,c,d,t,u,v,w,x,y,z = list(map(Variable, 'abcdtuvwxyz'))  # u.name = 'u' etc
+e,p,q,r = list(map(Letter, 'epqr'))
 
 # Import statement to write to save file, so it in turn can be imported 
 

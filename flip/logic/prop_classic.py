@@ -31,7 +31,7 @@ _rule_names = { oel: 'Or-Elimination (Left)',
 # Subproofs in inference rules are nested lists
 
 # Placeholders used in rules
-m1, m2 = map(FormulaPlaceholder, ('m1','m2'))
+m1, m2 = list(map(FormulaPlaceholder, ('m1','m2')))
 
 _rules = { oel:    [ Or(m1,m2), Not(m1), m2 ],
            oer:    [ Or(m1,m2), Not(m2), m1 ],

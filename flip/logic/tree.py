@@ -23,7 +23,7 @@ class Path(Text):
   def __init__(self, text):
     Text.__init__(self, text)
     if not wff.match(text): 
-      raise SyntaxError, 'path %s does not match [01]*$' % text
+      raise SyntaxError('path %s does not match [01]*$' % text)
 
   def pform(self):
     return "Path('%s')" % self.text
@@ -96,7 +96,7 @@ _rule_names = { lengthen0 : 'Lengthening, 0', lengthen1 : 'Lengthening, 1',
 # Subproofs in inference rules are nested lists
 
 # Placeholders used in rules
-x,y0 = map(FormulaPlaceholder, ['x','y0'])
+x,y0 = list(map(FormulaPlaceholder, ['x','y0']))
 
 # Rules here resemble Post system inference rules in def 3.26, p. 36
 # Placeholders are processed left to right, bare placeholder must appear first

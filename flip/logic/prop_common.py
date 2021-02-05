@@ -10,7 +10,7 @@ from formula import Letter, PrefixLogical, InfixLogical, FormulaPlaceholder
 
 # T, F are just propositional letters that appear in inference rules
 
-T,F = map(Letter, 'TF')
+T,F = list(map(Letter, 'TF'))
 
 class Not(PrefixLogical):
   """
@@ -78,7 +78,7 @@ _rule_names = { assume: 'Assumption',
 # Subproofs in inference rules are nested lists
 
 # Placeholders used in rules
-m1, m2 = map(FormulaPlaceholder, ('m1','m2'))
+m1, m2 = list(map(FormulaPlaceholder, ('m1','m2')))
 
 _rules = { assume: [[ m1 ]],  # subproof, assumer
            top:    [ T ],
@@ -95,7 +95,7 @@ _rules = { assume: [[ m1 ]],  # subproof, assumer
 
 # Propositional letters used in proofs
 # Use a,b,p,t for Kaye's alpha, beta, psi, theta
-a,b,c,d,e,f,p,q,r,t = map(Letter, 'abcdefpqrt')    # a.name = 'a' etc.
+a,b,c,d,e,f,p,q,r,t = list(map(Letter, 'abcdefpqrt'))    # a.name = 'a' etc.
 
 # Import statement to write to save file, so it in turn can be imported 
 _imports = 'from flip.logic.prop_common import *'

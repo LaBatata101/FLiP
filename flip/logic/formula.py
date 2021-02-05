@@ -7,6 +7,7 @@ involving bound and free variables.
 
 from operator import concat      # for free method in Compound
 from copy import copy, deepcopy  # for subst methods
+from functools import reduce
 
 class Symbol(object):
   """
@@ -37,7 +38,7 @@ class Symbol(object):
     return type(self) == type(other) and self.name == other.name
     
   def subst(self, substitutions):
-    for key, value in substitutions.items():
+    for key, value in list(substitutions.items()):
       if self.equal(key):
         return deepcopy(value) #substitutions is dict,only one match possible
     return deepcopy(self)  # no match
@@ -103,7 +104,7 @@ class Compound(object):
     return self.pform()
 
   def free(self):
-    freevs = reduce(concat, map(lambda a: a.free(), self.args))
+    freevs = reduce(concat, [a.free() for a in self.args])
     return remove_dups(freevs)
 
   def mismatch(self, formula, subformulas, bound,free, other_errors,rule_type):
@@ -133,7 +134,7 @@ class Compound(object):
     return True
 
   def subst(self, substitutions):
-    for key, value in substitutions.items():
+    for key, value in list(substitutions.items()):
       if self.equal(key):
         return deepcopy(value) # replace whole formula
     formcopy = deepcopy(self)  # must have deepcopy not copy here
@@ -270,7 +271,7 @@ class Quantifier(Compound, Formula):
         other_errors.append(
           'Fail: apply command requires argument: {term:variable}')
         return False
-      pair = (otherdata[0].items())[0]
+      pair = (list(otherdata[0].items()))[0]
       term = pair[0]
       bound = pair[1]
       if not (isinstance(bound,Variable) and isinstance(term,Term)):
@@ -415,7 +416,7 @@ class Subst(Symbol, Formula):
   def __init__(self, arg):
     self.name = self.pattern.name  # subclass assigns self.pattern
     if isinstance(arg, dict):
-      self.substitutions = arg.items() # convert dictionary to list of pairs
+      self.substitutions = list(arg.items()) # convert dictionary to list of pairs
     elif isinstance(arg, Symbol):
       self.substitutions = [(arg,arg)] # HACK to accommodate P(v1)
     else:
@@ -455,7 +456,7 @@ class Subst(Symbol, Formula):
           replacement = replacement_subformula #Ae premise doesn't constrain t1
         # Check side conditions on bound variables
         for descrip, term in (('source',source), ('replacement',replacement)):
-          if filter(lambda v: v in bound, term.free()):
+          if [v for v in term.free() if v in bound]:
             other_errors.append(
               'Fail: %s term %s includes bound variable in %s' % \
                (descrip, term.pform(), ppflist(bound)))
@@ -486,7 +487,7 @@ class Subst(Symbol, Formula):
       # S1({t1:v1}) in Ei, k is term t1, v is bound variable v1
       elif k not in subformulas and v not in subformulas:
         # otherdata has already been checked in Quantifier generate 
-        k,v = (otherdata[0].items())[0] 
+        k,v = (list(otherdata[0].items()))[0] 
         subst_pairs.append((k,v))
       # In following cases, term t1 only is from otherdata
       elif len(otherdata) < 1 or not isinstance(otherdata[0],Term):
@@ -597,8 +598,8 @@ def check_count(self, count, *args):
   # return # uncomment this line to turn off argument count check
   n = len(args)
   if n != count:
-    raise SyntaxError, '%s requires %d arguments, found %d' % \
-      (self.__class__.__name__, count, n)
+    raise SyntaxError('%s requires %d arguments, found %d' % \
+      (self.__class__.__name__, count, n))
 
 def check_type(self, arg_type, *args):
   """
@@ -607,8 +608,8 @@ def check_type(self, arg_type, *args):
   # return # uncomment this line to turn off argument type check
   for i, a in enumerate(args):
     if not(isinstance(a, arg_type)):
-      raise TypeError, '%s argument %d, %s is %s, must be %s' % \
-        (self.__class__.__name__, i, a.ppf(), type(a), arg_type)
+      raise TypeError('%s argument %d, %s is %s, must be %s' % \
+        (self.__class__.__name__, i, a.ppf(), type(a), arg_type))
 
 def remove_dups(vs):
   'Return shallow copy of list with duplicates removed'
@@ -639,7 +640,7 @@ def ppfdict(fdict):
   Pretty-print dictionary of formula to formula
   """
   return '{ %s }' % \
-    ', '.join([ '%s:%s' % (p.ppf(), f.ppf()) for p, f in fdict.items() ])
+    ', '.join([ '%s:%s' % (p.ppf(), f.ppf()) for p, f in list(fdict.items()) ])
 
 def mm_args(self, formula, subformulas, bound, free, other_errors, rule_type):
   'Return list of some arguments to mismatch method, pretty-printed'

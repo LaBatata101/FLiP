@@ -35,7 +35,7 @@ _rule_names = { assume_case: 'Assumption (next case)',
 # Subproofs in inference rules are nested lists
 
 # Placeholders used in rules
-m1, m2, m3 = map(FormulaPlaceholder, ('m1','m2','m3'))
+m1, m2, m3 = list(map(FormulaPlaceholder, ('m1','m2','m3')))
 
 _rules = { assume_case:  [[],[ m1 ]],  # subproof, replace top assumption
            ore: [ Or(m1,m2), [ m1,m3 ], [ m2,m3 ], m3 ], #subproofs, discharger

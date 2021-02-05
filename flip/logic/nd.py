@@ -12,6 +12,7 @@ import common as logic  # minimal core, import more logic in config modules
 from formula import Formula, Term, Apply, ppfdict, ppflist, ar, ac, dr, xr, xx
 from pprint import pprint
 from operator import concat
+from functools import reduce
 
 # proof state is a list proof steps, represented as tuples, where
 # assumptions is a stack of step numbers, premises is a seq. of step numbers:
@@ -43,9 +44,9 @@ def check_proof(script=[]):
     for line, step in enumerate(script):
       error = check(*step)      # *step unpacks step tuple to check args
       if isinstance(step[0],Formula):        # otherwise pps crashes
-        print pps(line, assumptions, *step)  # print after check updates state
+        print(pps(line, assumptions, *step))  # print after check updates state
       if error:
-        print error
+        print(error)
         break
     # if script and not error:  # Omit - noisy
     #   print 'QED'             # in script, print check_proof(p) to see True
@@ -67,8 +68,8 @@ def check(formula_arg, rule, *premises_etc):
     premise_lines = []
     # classify rule
     frule = logic.frules[rule] # flot form of inference rule
-    premise_indices = filter(lambda i: isinstance(i, int), premises_etc)
-    otherdata = filter(lambda i: not isinstance(i, int), premises_etc)
+    premise_indices = [i for i in premises_etc if isinstance(i, int)]
+    otherdata = [i for i in premises_etc if not isinstance(i, int)]
     nrule, npremises = len(frule) - 1, len(premise_indices)
     if not nrule == npremises:
       return 'Fail: requires %d premises, found %d' %(nrule,npremises)
@@ -181,7 +182,7 @@ def add_rule_names(*rule_names):
 def add_rules(*rules):
     for rs in rules:
         logic.rules.update(rs)
-    logic.frules = dict([(n, flotten(r)) for (n,r) in logic.rules.items()])
+    logic.frules = dict([(n, flotten(r)) for (n,r) in list(logic.rules.items())])
 
 # used by save function
 
@@ -246,7 +247,7 @@ def checkp(formula_arg, rule, *premises_etc):
   error = check(formula_arg, rule, *premises_etc) # updates proof state for pps
   # Note we pass in formula_arg, but check may update global formula
   if isinstance(formula, Formula):
-    print pps(line, assumptions, formula, rule, *premises_etc)
+    print(pps(line, assumptions, formula, rule, *premises_etc))
   return error
 
 def rapply(rule, *premises_etc):  # apply is a Python built-in, like in Lisp
@@ -285,7 +286,7 @@ def back(n=1):
     del steps[-n:]  # global steps apparenty not needed
     restore(len(steps)-1)  # index -1 not allowed here
   else:
-    print 'Proof has %d steps, none removed' % len(steps)
+    print('Proof has %d steps, none removed' % len(steps))
 
 def backa():
   """
@@ -295,7 +296,7 @@ def backa():
     del steps[assumptions[0]:]
     restore(len(steps)-1)
   else:
-    print 'Already at top level'
+    print('Already at top level')
 
 def clear():
   """
@@ -316,14 +317,14 @@ def pr(rule):
   Return rule premises and conclusion, list of strings
   """
   # Quick & dirty: frules is just a flat list, doesn't show subproofs
-  return map(lambda tuple: tuple[2].pform(), logic.frules[rule])
+  return [tuple[2].pform() for tuple in logic.frules[rule]]
 
 def rules():
   """
   Print all rules: short name, premises, and conclusion.
   Does not show subproof structure of rules.
   """
-  pprint([(r, pr(r)) for r in logic.rules.keys()])
+  pprint([(r, pr(r)) for r in list(logic.rules.keys())])
 
 def apropos(op):
   """
@@ -332,8 +333,8 @@ def apropos(op):
   """
   def rulehas(rule, op):
     # True iff op is main connective in any premise or conclusion of rule
-    return bool(filter(lambda p: isinstance(p[2],op), logic.frules[rule]))
-  pprint([(r,pr(r)) for r in filter(lambda r: rulehas(r,op),logic.rules.keys())])
+    return bool([p for p in logic.frules[rule] if isinstance(p[2],op)])
+  pprint([(r,pr(r)) for r in [r for r in list(logic.rules.keys()) if rulehas(r,op)]])
 def assump():
   """
   Return current stack of assumptions (subproofs) in proof state
@@ -348,8 +349,8 @@ def state():
     rule_type, assumptions, freevars, formula, rule, premises_etc = \
       step[0], step[1], step[2], step[3], step[4], step[5:]    
     freevs = tuple([ tuple(ppflist(vlist)) for vlist in freevars ])
-    print (line, rule_type,assumptions, freevs, formula.pform(), rule) + \
-           premises_etc
+    print((line, rule_type,assumptions, freevs, formula.pform(), rule) + \
+           premises_etc)
 
 def pps(line, assumptions, formula, rule, *premises_etc):
   """
@@ -360,14 +361,14 @@ def pps(line, assumptions, formula, rule, *premises_etc):
   fs = formula.ppf()
   ls = '(%d)' % line
   rs = '%s %s  %s' % ((bs+fs).ljust(24), ls.rjust(4), prn(rule)) #10 for poset
-  premise_indices = filter(lambda i: isinstance(i, int), premises_etc)
-  ps = ''.join(map(lambda i: ' (%d)' % i, premise_indices))
-  otherdata = filter(lambda i: not isinstance(i, int), premises_etc)
+  premise_indices = [i for i in premises_etc if isinstance(i, int)]
+  ps = ''.join([' (%d)' % i for i in premise_indices])
+  otherdata = [i for i in premises_etc if not isinstance(i, int)]
   # go to great lengths to make useful message, not crash
   if otherdata and isinstance(otherdata[0],Term):
     pd = ', with %s' % otherdata[0].pform()
   elif otherdata and isinstance(otherdata[0],dict):
-    pair = (otherdata[0].items())[0]
+    pair = (list(otherdata[0].items()))[0]
     term = pair[0]
     bound = pair[1]
     if isinstance(bound,Term) and isinstance(term,Term):
@@ -387,7 +388,7 @@ def pp():
   for line, step in enumerate(steps):
     rule_type, assumptions, freevars, formula, rule, premises_etc = \
       step[0], step[1], step[2], step[3], step[4], step[5:]    
-    print pps(line, assumptions, formula, rule, *premises_etc)
+    print(pps(line, assumptions, formula, rule, *premises_etc))
 
 def ptree(index=len(steps)-1, indent=0):
   """
@@ -399,9 +400,9 @@ def ptree(index=len(steps)-1, indent=0):
   rule_type, assumptions, freevars, formula, rule, premises_etc = \
       step[0], step[1], step[2], step[3], step[4], step[5:]    
   # strip leading indent from string returned by pps
-  print indent*' ' + \
-    pps(index, assumptions, formula, rule, *premises_etc).lstrip('|')
-  premise_indices = filter(lambda i: isinstance(i, int), premises_etc)
+  print(indent*' ' + \
+    pps(index, assumptions, formula, rule, *premises_etc).lstrip('|'))
+  premise_indices = [i for i in premises_etc if isinstance(i, int)]
   for i in premise_indices:
     ptree(i, indent + 2)
   
@@ -414,12 +415,12 @@ def pstep(step):
   (rule_type, assumptions, freevars, formula, rule, premises_etc) = \
      (step[0], step[1], step[2], step[3], step[4], step[5:])
   fs = formula.pform()
-  premise_indices = filter(lambda i: isinstance(i, int), premises_etc)
+  premise_indices = [i for i in premises_etc if isinstance(i, int)]
   if premise_indices:
-    ps = ', ' + ','.join(map(lambda i: '%d' % i, premise_indices))
+    ps = ', ' + ','.join(['%d' % i for i in premise_indices])
   else:
     ps = ''
-  otherdata = filter(lambda i: not isinstance(i, int), premises_etc)
+  otherdata = [i for i in premises_etc if not isinstance(i, int)]
   # Do not print otherdata, it is not useful once formula has been generated
   return '(%s, %s%s)' % (fs, rule, ps)
 
@@ -438,7 +439,7 @@ def save_proof(name, steps):
   f.write('%s\n\n%s = \\\n%s\n' % \
     (logic.imports, name, psave(steps)))
   f.close()
-  print 'Saved in %s' % fname
+  print('Saved in %s' % fname)
 
 def save(name):
   """

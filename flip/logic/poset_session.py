@@ -20,7 +20,7 @@ nd.add_imports(poset._imports)
 
 # Import all the identifiers that might be used in the interactive session
 
-from common import * 
+from common import *
 from poset import *
 
 from nd import *      # prover commands

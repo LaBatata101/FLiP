@@ -21,7 +21,7 @@ nd.add_imports(prop_common._imports, prop_constructive._imports)
 
 # import all identifiers that might be used in interactive session
 
-from common import * 
+from common import *
 from prop_common import *
 from prop_constructive import *
 
